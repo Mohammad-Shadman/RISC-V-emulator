@@ -21,12 +21,12 @@ module reg_rst #(parameter int DWIDTH = 32)(
                                             output logic [DWIDTH-1:0] out_o
                                             );
     
-    always @(posedge clk) begin
-        if (rst) begin
-            out_o<=0;
-        end
-        else begin          
-            out_o<= in_i;
+    always_ff @(posedge clk) begin
+        
+        out_o <= in_i;
+        
+        if (rst==1) begin
+            out_o <= 0;
         end
 
     end

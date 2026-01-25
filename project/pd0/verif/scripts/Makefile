@@ -2,7 +2,7 @@
 
 export SCRIPTS_DIR = $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 export CL_ROOT     = $(realpath $(SCRIPTS_DIR)/../../)
-export TEST_NAME   = $(CL_ROOT)/verif/tests/test_pd
+export TEST_NAME   = $(CL_ROOT)/design/code/my_test_pd0
 
 export SIM_ROOT    = $(CL_ROOT)/verif/sim/$(SIMULATOR)
 export SIM_DIR     = $(SIM_ROOT)/test_pd

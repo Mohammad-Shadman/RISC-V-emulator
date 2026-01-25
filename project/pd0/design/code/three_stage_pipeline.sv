@@ -44,41 +44,60 @@ module three_stage_pipeline #(
      * and set up the necessary connections
      *
      */
-
-
-
-
-    wire [DWIDTH*2-1:0]inS1;
-    wire [DWIDTH*2-1:0] inAluAdd;
-    wire [DWIDTH*2-1:0] inAluSub;
-    
-    assign inS1[DWIDTH-1:0] = op1_i; 
-    assign inS1[DWIDTH*2-1:DWIDTH] = op2_i;
-    
-    wire [DWIDTH*2-1:0] inS2;
-    wire [DWIDTH-1:0]   outAluAdd;
-    wire [DWIDTH-1:0]   outAluSub;
-
     /* verilator lint_off PINMISSING */
     /* verilator lint_off WIDTHEXPAND */
-    /*linty*/
-    assign inS2[DWIDTH*2-1:0] =  op1_i + (outAluAdd << (DWIDTH-1));
-    
-    wire [DWIDTH-1:0]outS3;
+    wire [31:0] aluAddOp1;
+    reg_rst #(DWIDTH)S1op1(.clk(clk),.rst(rst),.in_i(op1_i),.out_o(aluAddOp1));
+    wire [31:0] aluAddOp2;
+    reg_rst #(DWIDTH)S1op2(.clk(clk),.rst(rst),.in_i(op2_i),.out_o(aluAddOp2));
+    wire [31:0] s2op1;
+    /* verilator lint_off PINMISSING*/ 
+    alu #(DWIDTH) adder(.op1_i(aluAddOp1),.op2_i(aluAddOp2),.sel_i(0), .res_o(s2op1));
 
-    //input -> ins1 -> inAluAdd-> first alu -> ins2 -> inAluSub -> second alu -> outAluSub -> outs3 -> res_o
     
-    reg_rst #(DWIDTH*2) s1(.clk(clk),.rst(rst),.in_i(inS1),.out_o(inAluAdd));
-    reg_rst #(DWIDTH*2) s2(.clk(clk),.rst(rst),.in_i(inS2),.out_o(inAluSub)); 
-    /*linty*/
-    reg_rst #(DWIDTH*2) s3(.clk(clk),.rst(rst),.in_i(outAluSub),.out_o(outS3));	  
+    wire [31:0] aluSubOp1;
+    reg_rst #(DWIDTH)S2op1(.clk(clk),.rst(rst),.in_i(aluAddOp1),.out_o(aluSubOp1));
+    wire [31:0] aluSubOp2;
+    reg_rst #(DWIDTH)S2op2(.clk(clk),.rst(rst),.in_i(s2op1),.out_o(aluSubOp2));
+    wire [31:0] s3out;    
+    /* verilator lint_off PINMISSING*/ 
+    alu #(DWIDTH) subber(.op1_i(aluSubOp1),.op2_i(aluSubOp2),.sel_i(1), .res_o(s3out));
+
+    
+    reg_rst #(DWIDTH)S3out(.clk(clk),.rst(rst),.in_i(s3out),.out_o(res_o));
+    
+
+    // wire [DWIDTH*2-1:0]inS1;
+    // wire [DWIDTH*2-1:0] inAluAdd;
+    // wire [DWIDTH*2-1:0] inAluSub;
+    
+    // assign inS1[DWIDTH-1:0] = op1_i; 
+    // assign inS1[DWIDTH*2-1:DWIDTH] = op2_i;
+    
+    // wire [DWIDTH*2-1:0] inS2;
+    // wire [DWIDTH-1:0]   outAluAdd;
+    // wire [DWIDTH-1:0]   outAluSub;
+
+    // /* verilator lint_off PINMISSING */
+    // /* verilator lint_off WIDTHEXPAND */
+    // /*linty*/
+    // assign inS2[DWIDTH*2-1:0] =  op1_i + (outAluAdd << (DWIDTH-1));
+    
+    // wire [DWIDTH-1:0]outS3;
+
+    // //input -> ins1 -> inAluAdd-> first alu -> ins2 -> inAluSub -> second alu -> outAluSub -> outs3 -> res_o
+    
+    // reg_rst #(DWIDTH*2) s1(.clk(clk),.rst(rst),.in_i(inS1),.out_o(inAluAdd));
+    // reg_rst #(DWIDTH*2) s2(.clk(clk),.rst(rst),.in_i(inS2),.out_o(inAluSub)); 
+    // /*linty*/
+    // reg_rst #(DWIDTH*2) s3(.clk(clk),.rst(rst),.in_i(outAluSub),.out_o(outS3));	  
     
     
-    /*linty*/
-    alu #(.DWIDTH) adder(.op1_i(inAluAdd[DWIDTH*2-1:DWIDTH]),.op2_i(inAluAdd[DWIDTH-1:0]),.sel_i(0), .res_o(outAluAdd[DWIDTH-1:0]) );
-    alu #(.DWIDTH) subber(.op1_i(inAluSub[DWIDTH*2-1:DWIDTH]),.op2_i(inAluSub[DWIDTH-1:0]),.sel_i(1),.res_o(outAluSub[DWIDTH-1:0]) );
+    // /*linty*/
+    // alu #(.DWIDTH) adder(.op1_i(inAluAdd[DWIDTH*2-1:DWIDTH]),.op2_i(inAluAdd[DWIDTH-1:0]),.sel_i(0), .res_o(outAluAdd[DWIDTH-1:0]) );
+    // alu #(.DWIDTH) subber(.op1_i(inAluSub[DWIDTH*2-1:DWIDTH]),.op2_i(inAluSub[DWIDTH-1:0]),.sel_i(1),.res_o(outAluSub[DWIDTH-1:0]) );
     
-    assign  res_o = outS3;
+    // assign  res_o = outS3;
     
     
 endmodule: three_stage_pipeline

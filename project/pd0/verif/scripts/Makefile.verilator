@@ -5,7 +5,7 @@ TOP = top
 _CFLAGS=
 PROG=
 
-VCD ?= 0
+VCD ?= 1
 
 ifeq ($(VCD), 1)
 VFLAGS+= --trace
