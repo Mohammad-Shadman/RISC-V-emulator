@@ -27,7 +27,33 @@ module fetch #(
     /*
      * Process definitions to be filled by
      * student below...
-     */
+    */
+    memory #( .AWIDTH(AWIDTH),
+              .DWIDTH(DWIDTH),
+              .BASE_ADDR(BASEADDR)
+              ) Imem
+    (.clk(clk),
+     .rst(rst),
+     .addr_i(pc_o),
+     .data_i(0),
+     .read_en_i(1),
+     .write_en_i(0),
+     .data_o(insn_o)
+     );
+    initial begin
+        pc_o   = BASEADDR;
+        insn_o = 0;
+
+    end
+    always_ff @(posedge clk) begin
+        pc_o <= pc_o + AWIDTH/8;
+        if (rst)begin
+            pc_o <= BASEADDR;
+        end
+    end
+    
+
+    
 
 endmodule : fetch
 				

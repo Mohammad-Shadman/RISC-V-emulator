@@ -9,17 +9,46 @@
  */
 
 module pd1 #(
-    parameter int AWIDTH = 32,
-    parameter int DWIDTH = 32)(
-    input logic clk,
-    input logic reset
-);
+              parameter int AWIDTH = 32,
+              parameter int DWIDTH = 32)(
+                                          input logic clk,
+                                          input logic reset
+                                         );
 
- /*
-  * Instantiate other submodules and
-  * probes. To be filled by student...
-  *
-  */
+    /*
+     * Instantiate other submodules and
+     * probes. To be filled by student...
+     *
+     */
+    logic [AWIDTH-1:0] addr;
+    logic [DWIDTH-1:0] data_in;
+    logic [DWIDTH-1:0] data_out;
+    logic              w_e;
+    logic              r_e;
+    logic [AWIDTH-1:0] pc;
+    logic [DWIDTH-1:0] inst;
+    
+    memory #( .AWIDTH(AWIDTH),
+              .DWIDTH(DWIDTH)
+              ) Imem
+      (.clk(clk),
+       .rst(reset),
+       .addr_i(addr),
+       .data_i(data_in),
+       .read_en_i(r_e),
+       .write_en_i(w_e),
+       .data_o(data_out)
+       );
+    fetch #(
+            .DWIDTH(DWIDTH),
+            .AWIDTH(AWIDTH)
+            ) fetcher
+      (.clk(clk),
+	   .rst(reset),
+	   .pc_o(pc),
+       .insn_o(inst)
+       );
+    
 
 
 

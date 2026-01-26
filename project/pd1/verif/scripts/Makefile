@@ -48,4 +48,4 @@ endif
 
 EXTRA_PACKAGE_FILES := 
 
-include ${PROJECT_ROOT}/common/verif/tb/scripts/Makefile.common.inc
+include $(CL_ROOT)/../../common/verif/tb/scripts/Makefile.common.inc
