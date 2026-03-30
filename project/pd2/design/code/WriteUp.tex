@@ -1,0 +1,52 @@
+% Created 2026-02-19 Thu 17:35
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\date{\today}
+\title{}
+\hypersetup{
+ pdfauthor={},
+ pdftitle={},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 30.2 (Org mode 9.7.11)}, 
+ pdflang={English}}
+\begin{document}
+
+\tableofcontents
+
+\section{PD2 writeup}
+\label{sec:org465eae0}
+\subsection{constants}
+\label{sec:org3444244}
+i made the constants such that the ALU has its own set of codes
+that corresponds with the funct3 and funct7. all the opcodes have
+labeled funct3s and the different types of each opcodes are made
+seperate such as the different subtypes of I type.
+\subsection{igen}
+\label{sec:orgd562f32}
+the igen is completly combonational and always gives and output
+unless the opcode is R type. the immediate is muxed with the
+opcode.
+\subsection{decode}
+\label{sec:org0a299f3}
+decode is made to load on the negedge of clock. it is also
+completely blocking as there is no "shift register" style logic
+required by the design.
+\subsection{control}
+\label{sec:org398f2f5}
+the control is simply a mux for the different opcodes and the
+pcsel is changed from PC\textsubscript{ADD4} to PC\textsubscript{IMM} in branch and jump and the
+branch opcode needs the condition from the further instruction to
+be true to then change from the default PC\textsubscript{ADD4}.
+\end{document}

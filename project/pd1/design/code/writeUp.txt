@@ -1,0 +1,8 @@
+There is a memory test bench, if you run the .sh script, you will get
+the obj_dir dir with the test_Mem executable
+
+The TB tests the memory module and tests the read and write.
+
+The files are commented, there is a tb and the project compiles with
+verilator. please contact me in discord (m_sorrow) or email if there
+is a major issue.

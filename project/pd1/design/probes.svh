@@ -1,0 +1,14 @@
+// ----  Probes  ----
+`define PROBE_ADDR      addr
+`define PROBE_DATA_IN   data_in
+`define PROBE_DATA_OUT  data_out
+`define PROBE_READ_EN   r_e
+`define PROBE_WRITE_EN  w_e
+
+`define PROBE_F_PC      pc
+`define PROBE_F_INSN    inst
+// ----  Probes  ----
+
+ //----  Top module  ----
+`define TOP_MODULE  test_Mem
+ //----  Top module  ----

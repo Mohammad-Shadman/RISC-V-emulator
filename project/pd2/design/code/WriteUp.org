@@ -1,0 +1,19 @@
+* PD2 writeup
+** constants
+    i made the constants such that the ALU has its own set of codes
+    that corresponds with the funct3 and funct7. all the opcodes have
+    labeled funct3s and the different types of each opcodes are made
+    seperate such as the different subtypes of I type.
+** igen
+    the igen is completly combonational and always gives and output
+    unless the opcode is R type. the immediate is muxed with the
+    opcode.
+** decode
+    decode is made to load on the negedge of clock. it is also
+    completely blocking as there is no "shift register" style logic
+    required by the design.
+** control
+    the control is simply a mux for the different opcodes and the
+    pcsel is changed from PC_ADD4 to PC_IMM in branch and jump and the
+    branch opcode needs the condition from the further instruction to
+    be true to then change from the default PC_ADD4.
