@@ -62,6 +62,7 @@ module fetch #(
      .read_en_i(1),
      .write_en_i(0),
      .memsel_i(2),
+
      .data_o(insn_o)
      );
 

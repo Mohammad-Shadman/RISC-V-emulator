@@ -41,10 +41,8 @@ module decode #(
     input logic                rst,
     input logic [DWIDTH - 1:0] insn_i,
     input logic [DWIDTH - 1:0] pc_i,
-    input logic [DWIDTH - 1:0] oldRd_e,
-    input logic [DWIDTH - 1:0] oldRd_m,
-    input logic [DWIDTH - 1:0] oldRs1,
-    input logic [DWIDTH - 1:0] oldRs2,
+    input logic [4:0]          oldRd_de,
+    input logic [4:0]          oldRd_em,
 
     // outputs
     output logic [AWIDTH-1:0]  pc_o,
@@ -66,7 +64,8 @@ module decode #(
 
 //stall logic
     always_comb begin
-        if (rs1_o == oldRd_e || rs2_o == oldRd_e || rs1_o == oldRd_m || rs2_o == oldRd_m)  begin
+        if (rs1_o == oldRd_de || rs2_o == oldRd_de ||
+            rs1_o == oldRd_em || rs2_o == oldRd_em || rst) begin
             opcode_o = 0;
             pc_o     = pc_i-4;
         end
@@ -81,7 +80,6 @@ module decode #(
         if (rst) begin
             funct3_o = 0;
             funct7_o = 0;
-            opcode_o = 0;
             rd_o     = 0;
             rs1_o    = 0;
             rs2_o    = 0;

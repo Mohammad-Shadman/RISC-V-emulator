@@ -24,6 +24,8 @@
      input logic [DWIDTH-1:0]  memory_data_i,
      input logic [1:0]         wbsel_i,
      input logic               brtaken_i,
+     input logic [DWIDTH-1:0]  branched_alu_res,
+   
      output logic [DWIDTH-1:0] writeback_data_o,
      output logic [AWIDTH-1:0] next_pc_o
  );
@@ -49,7 +51,7 @@
             end
             default: writeback_data_o = 0;
         endcase // case (wbsel_i)
-        if(brtaken_i) next_pc_o = alu_res_i;
+        if(brtaken_i) next_pc_o = branched_alu_res;
     end
 
 endmodule : writeback

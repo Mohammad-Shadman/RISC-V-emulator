@@ -24,6 +24,7 @@ module alu #(
     input logic [DWIDTH-1:0]  rs2_i,
     input logic [3:0]         aluSel_i,
     input logic [6:0]         opcode_i,
+
     output logic [DWIDTH-1:0] res_o
 );
 
